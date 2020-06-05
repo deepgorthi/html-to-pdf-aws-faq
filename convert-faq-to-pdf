@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+
+import requests
+from bs4 import BeautifulSoup
+import pdfkit
+import cssutils
+
+
+# TODO
+
+"""
+Done > Extract filename for the pdf file from H1 title or the URL. 
+> Beautify the pdf file (Maybe use http://code.activestate.com/recipes/579014-convert-html-text-to-pdf-with-beautiful-soup-and-x/)
+
+"""
+
+url = "https://aws.amazon.com/dynamodb/faqs/"
+
+# Make a GET request to fetch the raw HTML content
+html_content = requests.get(url).text
+
+# parse the html content
+soup = BeautifulSoup(html_content, "lxml")
+# print(soup.prettify())
+
+aws_page_content = soup.find(id="aws-page-content")
+# print(aws_page_content.h1)
+# print(aws_page_content.main)
+
+for div in aws_page_content.find_all("div", {"class":"lb-none-pad"}):
+    div.decompose()
+
+for div in aws_page_content.find_all("div", {"class":"lb-sticky-sidebar"}):
+    div.decompose()
+
+for div in aws_page_content.find_all("div", {"class":"lb-expand-trigger"}):
+    div.decompose()
+
+for div in aws_page_content.find_all("div", {"class":"lb-collapse-trigger"}):
+    div.decompose()
+
+
+sheets = []
+for styletag in soup.find_all('style', type='text/css'):
+    if not styletag.string: # probably an external sheet
+        continue
+    sheets.append(cssutils.parseStyle(styletag.string))
+
+options = {
+    'page-size': 'Letter',
+    'margin-top': '0.75in',
+    'margin-right': '0.75in',
+    'margin-bottom': '0.75in',
+    'margin-left': '0.75in',
+    'encoding': "UTF-8",
+    'custom-header' : [
+        ('Accept-Encoding', 'gzip')
+    ],
+    'cookie': [
+        ('cookie-name1', 'cookie-value1'),
+        ('cookie-name2', 'cookie-value2'),
+    ],
+    'no-outline': None
+}
+
+final_html = str(aws_page_content.h1) + str(aws_page_content.main)
+
+pdfkit.from_string(final_html, f'{aws_page_content.h1.text}.pdf', css=sheets, options=options)
