@@ -4,17 +4,21 @@ import requests
 from bs4 import BeautifulSoup
 import pdfkit
 import cssutils
-
-
-# TODO
-
-"""
-Done > Extract filename for the pdf file from H1 title or the URL. 
-> Beautify the pdf file (Maybe use http://code.activestate.com/recipes/579014-convert-html-text-to-pdf-with-beautiful-soup-and-x/)
+import sys
+import os
 
 """
+Enter AWS Service name to download the corresponding FAQ as PDF. 
 
-url = "https://aws.amazon.com/dynamodb/faqs/"
+Usage:
+>> pipenv shell
+>> pipenv install
+>> ./convert-faq-to-pdf dynamodb
+
+"""
+
+service_name = sys.argv[1]
+url = f"https://aws.amazon.com/{service_name}/faqs/"
 
 # Make a GET request to fetch the raw HTML content
 html_content = requests.get(url).text
@@ -65,4 +69,4 @@ options = {
 
 final_html = str(aws_page_content.h1) + str(aws_page_content.main)
 
-pdfkit.from_string(final_html, f'{aws_page_content.h1.text}.pdf', css=sheets, options=options)
+pdfkit.from_string(final_html, os.path.join('pdf', f'{aws_page_content.h1.text}.pdf'), css=sheets, options=options)
