@@ -8,12 +8,16 @@ import sys
 import os
 
 """
+Python webscraping program to get html content from AWS FAQ page and convert to PDF for offline access.
+
 Enter AWS Service name to download the corresponding FAQ as PDF. 
 
 Usage:
 >> pipenv shell
 >> pipenv install
 >> ./convert-faq-to-pdf dynamodb
+
+*For educational purposes only.*
 
 """
 
