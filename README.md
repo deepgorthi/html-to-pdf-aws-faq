@@ -16,7 +16,7 @@ Enter AWS Service name to download the corresponding FAQ as PDF.
 
 ## Example
 
-```
+```bash
 >> ./convert-faq-to-pdf dynamodb
 ```
 
