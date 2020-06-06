@@ -4,20 +4,23 @@ This program is specifically for converting AWS FAQ pages to PDF for offline acc
 
 Python webscraping program to convert html content to PDF.
 
-Enter AWS Service name to download the corresponding FAQ as PDF. 
+Enter AWS Service name or the slug in <https://aws.amazon.com/[SLUG]/faqs/> to download the corresponding FAQ as PDF. 
 
 ## Usage
 
 ```bash
 >> pipenv shell
 >> pipenv install
->> ./convert-faq-to-pdf <aws_service_name>
+>> chmod +x convert-faq-to-pdf
+>> ./convert-faq-to-pdf [SLUG]
 ```
 
 ## Example
 
 ```bash
 >> ./convert-faq-to-pdf dynamodb
+or
+>> ./convert-faq-to-pdf kinesis/data-streams
 ```
 
 
