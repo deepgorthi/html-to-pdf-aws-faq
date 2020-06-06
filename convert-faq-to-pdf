@@ -47,6 +47,9 @@ for div in aws_page_content.find_all("div", {"class":"lb-expand-trigger"}):
 for div in aws_page_content.find_all("div", {"class":"lb-collapse-trigger"}):
     div.decompose()
 
+for div in aws_page_content.find_all("div", {"class":"vbb"}):
+    div.decompose()
+
 
 sheets = []
 for styletag in soup.find_all('style', type='text/css'):
@@ -73,4 +76,6 @@ options = {
 
 final_html = str(aws_page_content.h1) + str(aws_page_content.main)
 
-pdfkit.from_string(final_html, os.path.join('pdf', f'{aws_page_content.h1.text}.pdf'), css=sheets, options=options)
+file_name = aws_page_content.h1.text.strip()
+
+pdfkit.from_string(final_html, os.path.join('pdf', f'{file_name}.pdf'), css=sheets, options=options)
