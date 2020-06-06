@@ -76,6 +76,6 @@ options = {
 
 final_html = str(aws_page_content.h1) + str(aws_page_content.main)
 
-file_name = aws_page_content.h1.text.strip()
+file_name = aws_page_content.h1.text.strip()  # remove leading and trailing whitespaces
 
 pdfkit.from_string(final_html, os.path.join('pdf', f'{file_name}.pdf'), css=sheets, options=options)
